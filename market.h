@@ -1,7 +1,4 @@
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <map>
+#include "includes.h"
 
 using std::ostream;
 using std::istream;
@@ -17,12 +14,53 @@ class MarketItem;
 ostream &operator<<(ostream &, const Market&);
 ostream &operator<<(ostream &, const MarketItem&);
 
+
+class MarketItem{
+
+friend class Market;
+friend ostream &operator<<(ostream &, const MarketItem&);
+
+public:
+	MarketItem(const string &c = "nocode", const string &en = "noname") : 
+		code(c),
+		enname(en) 
+	{
+	
+	}
+
+	MarketItem(const MarketItem &mi) :
+		code(mi.code),
+		enname(mi.enname)
+	{
+
+	}
+
+	MarketItem &operator=(const MarketItem &rhs)
+	{
+		code = rhs.code;
+		enname = rhs.enname;
+
+		return *this;
+	}
+private:
+	string code;
+	string enname;
+};
+
+ostream &operator<<(ostream &os, const MarketItem& i)
+{
+  os << '[' << i.code << ']' << i.enname;
+
+  return os;
+}
+
+
 class Market{
 
 friend ostream &operator<<(ostream &, const Market&);
 
 public:
-	Market(string s = "top")
+	Market(const string &s = "top")
 	{
 		name = s;
 	}
@@ -34,10 +72,10 @@ public:
 		string line;
 		
 		while(getline(is ,line)) {
-			if (line.find("q", 0, 1)) {
+			if (isCmd(line, "q")) {
 				return quantity;
 			} else {
-				res = m.addItem(line);
+				res = addItem(line);
 				if (res > 0) {
 					quantity++;
 					cout << *this;
@@ -50,19 +88,21 @@ public:
 		return quantity;
 	}
 
-	int addItem(string s)
+	int addItem(const string &s)
 	{
 		string code;
 		string enname;
 		istringstream is(s);
 
 		is >> code >> enname;
-		addItem(MarketItem(code, name));
+		return addItem(MarketItem(code, enname));
 	}
 
-	int addItem(MarketItem item)
+	int addItem(const MarketItem &item)
 	{
-		stocks[item->code] = item;
+		stocks[item.code] = item;
+
+		return 1;
 	}
 
 private:
@@ -72,35 +112,12 @@ private:
 
 ostream &operator<<(ostream &os, const Market& m)
 {
-	os << name << "Market Stock list:  " << endl;
-	for(const auto &item : stocks) {
+	os << m.name << "Market Stock list:  " << endl;
+	for(const auto &item : m.stocks) {
 		os << item.second << endl;
 	}
 
 	return os;
-}
-
-class MarketItem{
-
-friend ostream &operator<<(ostream &, const MarketItem&);
-
-public:
-	MarketItem(string c, string en) : 
-		code(c),
-		enname(en) 
-	{
-	
-	}
-private:
-	string code;
-	string enname;
-};
-
-ostream &operator<<(ostream &os, const MarketItem& i)
-{
-  os << '[' << i.code << ']' << i.enname;
-
-  return os;
 }
 
 }
