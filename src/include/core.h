@@ -1,25 +1,41 @@
 #ifndef _MARKET_CORE_H_
 #define _MARKET_CORE_H_
 
+/**
+ * system call
+ *
+ * <unistd.h>
+ * functions:
+ * read
+ * write
+ *
+ * <sys/types.h>
+ * size_t used for sizes of objects
+ * ssize_t used for a count of bytes or an error indication
+ *
+ */
+#include <unistd.h>
+#include <sys/types.h>
 
 /**
  * c std library
- * <strings.h>
- * functions:
- * memset
- * memcpy
- * memcmp
  */
-#include <strings.h>
 
 /**
  * c++ std library
+ *
+ * <cstring>
+ * memset
+ * memcpy
+ * memcmp
  */
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <map>
 #include <vector>
+
+#include <cstring>
 
 
 /**
@@ -51,17 +67,30 @@
  * <sys/socket.h>
  * functions:
  * socket
+ * listen
+ * bind
+ * accept
+ *
+ * <netdb.h>
+ * data structure:
+ * struct addrinfo
  */
 #include <netinet/in.h>
 #define SA struct sockaddr
 #define SS struct sockaddr_storage
 #include <arpa/inet.h>
 #include <sys/socket.h>
+#include <netdb.h>
 
 /**
- * market app
+ * market includes
  */
-#include <tcp.h>
-#include <logger.h>
 #include <network_helper.h>
+
+/**
+ * market class
+ */
+#include <logger.h>
+#include <stream.h>
+#include <tcp_acceptor.h>
 #endif

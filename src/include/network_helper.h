@@ -14,5 +14,6 @@ get_family_by_addr(const string& addr)
 
 	return family;
 }
+
 }
 #endif
