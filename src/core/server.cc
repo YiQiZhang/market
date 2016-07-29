@@ -1,29 +1,14 @@
 #include <core.h>
 
-#define BUF_SIZE 4
-
-using std::cout;
-using std::endl;
-using std::string;
-using market::TcpAcceptor;
-using market::TcpStream;
-
-int main(int argc, char **argv)
+int 
+main(int argc, char **argv)
 {
-	cout << "hello world! i am market server" << endl;
-	TcpAcceptor server("9999");
+	std::cout << "hello world! i am market server" << std::endl;
 	
-	TcpStream stream = server.acceptRequest();
+	Market::Websocket::Server server("", "9999");
+	server.start();
 
-	string content;
-	char buf[BUF_SIZE];
-	ssize_t n;
-
-	while( (n = stream.receive(buf, BUF_SIZE)) > 0) {
-		cout << buf;
-	}
-
-	cout << "exit hehe" << endl;
+	std::cout << "exit normal" << std::endl;
 
 	return 0;
 }

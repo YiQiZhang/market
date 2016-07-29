@@ -5,13 +5,11 @@
 
 #define LISTENQ 10
 
-namespace market{
-
-using std::map;
+namespace Market{
 
 class TcpAcceptor{
 public:
-	TcpAcceptor(const string &host, const string &listenPort) : 
+	TcpAcceptor(const std::string &host, const std::string &listenPort) : 
 		host(host),
 		port(listenPort)
 	{
@@ -23,8 +21,12 @@ public:
 		hints.ai_family = AF_UNSPEC;
 		hints.ai_socktype = SOCK_STREAM;
 
-		if (getaddrinfo(host.c_str(), listenPort.c_str(), &hints, &res) != 0)
-			logger(MERR_FATAL, "tcp_listen server fail");
+		const char *hostPtr = host.empty() ? NULL : host.c_str();
+		int code;
+		if ( (code = getaddrinfo(hostPtr, listenPort.c_str(), &hints, &res)) != 0) {
+
+			logger(MERR_FATAL, gai_strerror(code));
+		}
 
 		ressave = res;
 
@@ -55,17 +57,17 @@ public:
 		freeaddrinfo(ressave);
 	}
 
-	TcpAcceptor(const string &listenPort) : TcpAcceptor(string(), listenPort)
+	TcpAcceptor(const std::string &listenPort) : TcpAcceptor("", listenPort)
 	{
 	}
 
-	const string &
+	const std::string &
 	listenHost() const
 	{
 		return host;
 	}
 
-	const string &
+	const std::string &
 	listenPort() const
 	{
 		return port;
@@ -99,9 +101,9 @@ public:
 private:
 	TcpAcceptor();
 
-	string host;
+	std::string host;
 
-	string port;
+	std::string port;
 
 	struct addrinfo hints;
 

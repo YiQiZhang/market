@@ -6,16 +6,12 @@
 #define MERR_FATAL 1
 #define MERR_NOTICE 2
 
-namespace market{
-
-using std::string;
-using std::cout;
-using std::endl;
+namespace Market{
 
 void
 logger(int type, const string& errmsg)
 {
-	cout << errmsg << endl;
+	std::cout << errmsg << std::endl;
 	if (type == MERR_FATAL) {
 		exit(1);
 	}

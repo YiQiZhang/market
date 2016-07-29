@@ -1,6 +1,14 @@
 # automake
 autom4te.cache
 
+# vim
+*.swp
+
+# autotool
+config.log
+config.status
+configure.lineno
+
 # Compiled Object files
 *.slo
 *.lo
@@ -29,3 +37,4 @@ autom4te.cache
 *.exe
 *.out
 *.app
+*.pyc

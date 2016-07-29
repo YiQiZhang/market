@@ -3,11 +3,7 @@
 
 #include <core.h>
 
-using std::string;
-
-namespace market{
-
-using std::string;
+namespace Market{
 
 class Stream {
 public:

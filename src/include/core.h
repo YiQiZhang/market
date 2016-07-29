@@ -28,14 +28,23 @@
  * memset
  * memcpy
  * memcmp
+ *
+ * <cctype>
+ * isspace
  */
 #include <iostream>
+#include <fstream>
 #include <sstream>
+
+#include <algorithm>
 #include <string>
-#include <map>
 #include <vector>
+#include <map>
+#include <unordered_map>
+#include <regex>
 
 #include <cstring>
+#include <cctype>
 
 
 /**
@@ -90,7 +99,10 @@
 /**
  * market class
  */
+#include <market_utils.h>
+#include <market_string.h>
 #include <logger.h>
 #include <stream.h>
 #include <tcp_acceptor.h>
+#include <websocket_server.h>
 #endif

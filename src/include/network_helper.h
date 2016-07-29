@@ -3,7 +3,7 @@
 
 #include <core.h>
 
-namespace market{
+namespace Market{
 
 using std::string;
 
