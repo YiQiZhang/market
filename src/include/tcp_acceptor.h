@@ -90,9 +90,10 @@ public:
 	{
 		int fd;
 		TcpStream stream;
-		if ( (fd = accept(listenFd, (SA *)stream.addrPointer(), stream.addrLengthPointer())) < 0 ) {
+
+		while ( (fd = accept(listenFd, (SA *)stream.addrPointer(), stream.addrLengthPointer())) < 0 ) {
 			
-			logger(MERR_FATAL, "accept fail");
+			logger(MERR_NOTICE, strerror(errno));
 		}
 
 		stream.setFileDescriptor(fd);

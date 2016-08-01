@@ -34,11 +34,11 @@ public:
 	}
 
 	ssize_t
-	send(char *buf, size_t len)
+	send(const char *buf, size_t len)
 	{
 		size_t nleft;
 		ssize_t nwritten;
-		char * ptr;
+		const char *ptr;
 
 		ptr = buf;
 		nleft = len;

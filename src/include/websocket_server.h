@@ -10,6 +10,7 @@ namespace Market {
 namespace Websocket{
 
 class Connection{
+friend class Server;
 public:
 	Connection(const std::string &method,
 					const std::string &uri,
@@ -71,8 +72,10 @@ private:
 
 class Server{
 public:
+	static constexpr char MagicString[] = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+
 	Server(const std::string &host,
-					const std::string &port) :
+			const std::string &port) :
 		acceptor(host, port)
 	{
 	}
@@ -107,11 +110,38 @@ public:
 			);
 		}
 		
-		std::cout << connection.to_string();
+		handShakeResponse(stream, connection);
 	}
 
 private:
 	TcpAcceptor acceptor;
+
+	string
+	buildAcceptKey(const Connection &connection) const
+	{
+		const char *MagicString;
+
+		std::string ret(connection.getHeader("Sec-Websocket-Key") + MagicString);
+
+		ret = Market::Utils::Base64::Encoding(Market::Utils::Sha1(ret));
+
+		return ret;
+	}
+
+	void
+	handShakeResponse(TcpStream &stream, Connection &connection)
+	{
+		std::ostringstream os;
+		
+		os << connection.version << " 101 Switching Protocols\r\n"
+			<< "Upgrade: websocket\r\n"
+			<< "Connection: Upgrade\r\n"
+			<< "Sec-WebSocket-Accept: " << buildAcceptKey(connection) << "\r\n\r\n";
+
+		std::cout << os.str();
+
+		stream.send(os.str().data(), os.str().size());
+	}
 };
 
 }
