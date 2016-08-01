@@ -1,4 +1,4 @@
-server.o: server.cc /usr/include/stdc-predef.h \
+hash.o: hash.cc /usr/include/stdc-predef.h \
  /mnt/hgfs/VMWarePhpDevelopment/code/market/src/include/core.h \
  /usr/include/unistd.h /usr/include/features.h \
  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -209,7 +209,44 @@ server.o: server.cc /usr/include/stdc-predef.h \
  /mnt/hgfs/VMWarePhpDevelopment/code/market/src/include/logger.h \
  /mnt/hgfs/VMWarePhpDevelopment/code/market/src/include/stream.h \
  /mnt/hgfs/VMWarePhpDevelopment/code/market/src/include/tcp_acceptor.h \
- /mnt/hgfs/VMWarePhpDevelopment/code/market/src/include/websocket_server.h
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/include/websocket_server.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-internal.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-port.h \
+ /usr/include/x86_64-linux-gnu/sys/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/stat.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-port-arch.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/custom/gtest-port.h \
+ /usr/include/strings.h /usr/include/regex.h \
+ /usr/include/x86_64-linux-gnu/gnu/option-groups.h \
+ /usr/include/x86_64-linux-gnu/sys/wait.h /usr/include/signal.h \
+ /usr/include/x86_64-linux-gnu/bits/signum.h \
+ /usr/include/x86_64-linux-gnu/bits/sigaction.h \
+ /usr/include/x86_64-linux-gnu/bits/sigcontext.h \
+ /usr/include/x86_64-linux-gnu/bits/sigstack.h \
+ /usr/include/x86_64-linux-gnu/sys/ucontext.h \
+ /usr/include/x86_64-linux-gnu/bits/sigthread.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/float.h \
+ /usr/include/c++/4.8/iomanip \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest-message.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-string.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-filepath.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-type-util.h \
+ /usr/include/c++/4.8/cxxabi.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/cxxabi_tweaks.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest-death-test.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-death-test-internal.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest-param-test.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-param-util.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-linked_ptr.h \
+ /usr/include/assert.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest-printers.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/custom/gtest-printers.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-param-util-generated.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest_prod.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest-test-part.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest-typed-test.h \
+ /mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest_pred_impl.h
 
 /usr/include/stdc-predef.h:
 
@@ -746,3 +783,81 @@ server.o: server.cc /usr/include/stdc-predef.h \
 /mnt/hgfs/VMWarePhpDevelopment/code/market/src/include/tcp_acceptor.h:
 
 /mnt/hgfs/VMWarePhpDevelopment/code/market/src/include/websocket_server.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-internal.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-port.h:
+
+/usr/include/x86_64-linux-gnu/sys/stat.h:
+
+/usr/include/x86_64-linux-gnu/bits/stat.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-port-arch.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/custom/gtest-port.h:
+
+/usr/include/strings.h:
+
+/usr/include/regex.h:
+
+/usr/include/x86_64-linux-gnu/gnu/option-groups.h:
+
+/usr/include/x86_64-linux-gnu/sys/wait.h:
+
+/usr/include/signal.h:
+
+/usr/include/x86_64-linux-gnu/bits/signum.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigaction.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigcontext.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigstack.h:
+
+/usr/include/x86_64-linux-gnu/sys/ucontext.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigthread.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/float.h:
+
+/usr/include/c++/4.8/iomanip:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest-message.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-string.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-filepath.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-type-util.h:
+
+/usr/include/c++/4.8/cxxabi.h:
+
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/cxxabi_tweaks.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest-death-test.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-death-test-internal.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest-param-test.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-param-util.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-linked_ptr.h:
+
+/usr/include/assert.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest-printers.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/custom/gtest-printers.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/internal/gtest-param-util-generated.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest_prod.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest-test-part.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest-typed-test.h:
+
+/mnt/hgfs/VMWarePhpDevelopment/code/market/src/lib/gtest/gtest_pred_impl.h:

@@ -1,13 +1,13 @@
-# automake
-autom4te.cache
-
 # vim
 *.swp
 
-# autotool
+# autotools
 config.log
 config.status
 configure.lineno
+
+# automake
+autom4te.cache
 
 # Compiled Object files
 *.slo
@@ -30,7 +30,7 @@ configure.lineno
 # Compiled Static libraries
 *.lai
 *.la
-*.a
+# *.a
 *.lib
 
 # Executables

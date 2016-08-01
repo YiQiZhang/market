@@ -10,5 +10,7 @@ AC_CONFIG_FILES([
   Makefile
   src/Makefile
   src/core/Makefile
+  src/test/Makefile
+  src/test/utils/Makefile
 ])
 AC_OUTPUT

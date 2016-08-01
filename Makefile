@@ -219,14 +219,14 @@ distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /home/vagrant/WorkSpace/market/missing aclocal-1.14
+ACLOCAL = ${SHELL} /mnt/hgfs/VMWarePhpDevelopment/code/market/missing aclocal-1.14
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = ar
-AUTOCONF = ${SHELL} /home/vagrant/WorkSpace/market/missing autoconf
-AUTOHEADER = ${SHELL} /home/vagrant/WorkSpace/market/missing autoheader
-AUTOMAKE = ${SHELL} /home/vagrant/WorkSpace/market/missing automake-1.14
-AWK = mawk
+AUTOCONF = ${SHELL} /mnt/hgfs/VMWarePhpDevelopment/code/market/missing autoconf
+AUTOHEADER = ${SHELL} /mnt/hgfs/VMWarePhpDevelopment/code/market/missing autoheader
+AUTOMAKE = ${SHELL} /mnt/hgfs/VMWarePhpDevelopment/code/market/missing automake-1.14
+AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
@@ -241,7 +241,7 @@ ECHO_C =
 ECHO_N = -n
 ECHO_T = 
 EXEEXT = 
-INSTALL = ./install-sh -c
+INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
@@ -250,7 +250,7 @@ LDFLAGS =
 LIBOBJS = 
 LIBS = 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/vagrant/WorkSpace/market/missing makeinfo
+MAKEINFO = ${SHELL} /mnt/hgfs/VMWarePhpDevelopment/code/market/missing makeinfo
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
 PACKAGE = market
@@ -266,10 +266,10 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = 
 VERSION = 0.1
-abs_builddir = /home/vagrant/WorkSpace/market
-abs_srcdir = /home/vagrant/WorkSpace/market
-abs_top_builddir = /home/vagrant/WorkSpace/market
-abs_top_srcdir = /home/vagrant/WorkSpace/market
+abs_builddir = /mnt/hgfs/VMWarePhpDevelopment/code/market
+abs_srcdir = /mnt/hgfs/VMWarePhpDevelopment/code/market
+abs_top_builddir = /mnt/hgfs/VMWarePhpDevelopment/code/market
+abs_top_srcdir = /mnt/hgfs/VMWarePhpDevelopment/code/market
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_CXX = g++
@@ -290,7 +290,7 @@ host_alias =
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/vagrant/WorkSpace/market/install-sh
+install_sh = ${SHELL} /mnt/hgfs/VMWarePhpDevelopment/code/market/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -313,6 +313,7 @@ top_srcdir = .
 SUBDIRS = src
 dist_doc_DATA = README.md
 AM_CPPFLAGS = -I$(abs_top_builddir)/src/include -I$(abs_top_builddir)/src/lib -L$(abs_top_builddir)/src/lib -std=c++11
+MAIN_LIBS = -lcrypto
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -808,6 +809,7 @@ uninstall-am: uninstall-dist_docDATA
 	tags-am uninstall uninstall-am uninstall-dist_docDATA
 
 export AM_CPPFLAGS
+export MAIN_LIBS
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

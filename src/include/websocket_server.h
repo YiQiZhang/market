@@ -135,7 +135,11 @@ private:
 	{
 		std::string ret(connection.getHeader("Sec-WebSocket-Key") + WEBSOCKET_MAGIC_STRING);
 
-		ret = Market::Utils::Base64::Encoding(Market::Utils::Sha1(ret));
+		unsigned char digest[SHA_DIGEST_LENGTH];
+
+		Market::Utils::Hash::Sha1Hex(ret, &digest[0]);
+	
+		ret = Market::Utils::Base64::Encoding(std::string((char *)&digest[0], SHA_DIGEST_LENGTH));
 
 		return ret;
 	}

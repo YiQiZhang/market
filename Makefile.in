@@ -313,6 +313,7 @@ top_srcdir = @top_srcdir@
 SUBDIRS = src
 dist_doc_DATA = README.md
 AM_CPPFLAGS = -I$(abs_top_builddir)/src/include -I$(abs_top_builddir)/src/lib -L$(abs_top_builddir)/src/lib -std=c++11
+MAIN_LIBS = -lcrypto
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -808,6 +809,7 @@ uninstall-am: uninstall-dist_docDATA
 	tags-am uninstall uninstall-am uninstall-dist_docDATA
 
 export AM_CPPFLAGS
+export MAIN_LIBS
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

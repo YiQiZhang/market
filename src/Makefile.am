@@ -1,1 +1,1 @@
-SUBDIRS = core
+SUBDIRS = core test

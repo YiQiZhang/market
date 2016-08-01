@@ -6,18 +6,27 @@
 
 namespace Market{
 namespace Utils {
-	static std::string
-	Sha1(const std::string &s)
-	{
-		unsigned char digest[SHA_DIGEST_LENGTH];
-		char ret[SHA_DIGEST_LENGTH*2];
-		SHA1((unsigned char *) s.data(), s.size(), digest);
-
-		for(int i = 0; i < SHA_DIGEST_LENGTH; i++) {
-			std::sprintf(&ret[i*2], "%02x", digest[i]);
+	namespace Hash {
+		static void
+		Sha1Hex(const std::string &s, unsigned char *digest)
+		{
+			SHA1((unsigned char *) s.data(), s.size(), digest);
 		}
 
-		return std::string(ret, SHA_DIGEST_LENGTH * 2);
+		static std::string
+		Sha1(const std::string &s)
+		{
+			unsigned char digest[SHA_DIGEST_LENGTH];
+			char ret[SHA_DIGEST_LENGTH*2];
+
+			Sha1Hex(s, &digest[0]);
+
+			for(int i = 0; i < SHA_DIGEST_LENGTH; i++) {
+				std::sprintf(&ret[i*2], "%02x", digest[i]);
+			}
+
+			return std::string(ret, SHA_DIGEST_LENGTH * 2);
+		}
 	}
 
 	namespace Base64 {
