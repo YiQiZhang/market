@@ -7,6 +7,11 @@ namespace Market{
 
 class Stream {
 public:
+	Stream() :
+		addrLen(sizeof addr)
+	{
+	}
+
 	ssize_t
 	receive(char *buf, size_t len)
 	{

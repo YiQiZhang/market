@@ -37,9 +37,11 @@ public:
 				continue;
 			}
 
-			// TODO: set socket opt
+			setSocketOptions(fd);
 			if (bind(fd, res->ai_addr, res->ai_addrlen) == 0) {
 				break; // success
+			} else {
+				logger(MERR_NOTICE, std::string("bind fail: ") + strerror(errno));
 			}
 
 			close(fd);
@@ -49,7 +51,9 @@ public:
 			logger(MERR_FATAL, "tcp listen error");
 		}
 
-		listen(fd, LISTENQ);
+		if (listen(fd, LISTENQ) < 0) {
+			logger(MERR_NOTICE, std::string("listen fail: ") + strerror(errno));
+		}
 
 		addrlen = res->ai_addrlen;
 		listenFd = fd;
@@ -92,8 +96,7 @@ public:
 		TcpStream stream;
 
 		while ( (fd = accept(listenFd, (SA *)stream.addrPointer(), stream.addrLengthPointer())) < 0 ) {
-			
-			logger(MERR_NOTICE, strerror(errno));
+			logger(MERR_NOTICE, std::string("accept fail: ") + strerror(errno));
 		}
 
 		stream.setFileDescriptor(fd);
@@ -111,6 +114,16 @@ private:
 	int listenFd;
 
 	socklen_t addrlen;
+
+	void
+	setSocketOptions(int fd)
+	{
+		// TODO: set socket opt
+		char yes = '1';
+		if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {
+			logger(MERR_NOTICE, std::string("set socket option failed: ") + strerror(errno));
+		}
+	}
 };
 }
 #endif

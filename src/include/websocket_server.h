@@ -5,6 +5,7 @@
 
 #define BUF_SIZE 1
 #define HEADER_BUF_SIZE 1024 
+#define WEBSOCKET_MAGIC_STRING "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 
 namespace Market {
 namespace Websocket{
@@ -37,7 +38,7 @@ public:
 	const std::string &
 	getHeader(const std::string &key) const
 	{
-		return (*headers.find(key)).second;
+		return headers.at(key);
 	}
 
 	bool
@@ -56,8 +57,8 @@ public:
 			<< "version: " << version << "\n";
 
 		for(const auto &header: headers) {
-			os << header.first << "\n" 
-				<< header.second << "\n";
+			os << '"' << header.first << "\", size: " << header.first.size() <<  "\n" 
+				<< '"' << header.second << "\", size: " << header.second.size() << "\n";
 		}
 
 		return os.str();
@@ -72,7 +73,6 @@ private:
 
 class Server{
 public:
-	static constexpr char MagicString[] = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 
 	Server(const std::string &host,
 			const std::string &port) :
@@ -87,17 +87,32 @@ public:
 		std::string content;
 		char buf[BUF_SIZE];
 		ssize_t n;
+		std::string::size_type delimPost;
 
 		while( (n = stream.receive(buf, BUF_SIZE)) > 0) {
 			content.append(buf, n);
-		}
 
-		std::cout << content;
+			if ((delimPost = content.find("\r\n\r\n")) != std::string::npos) {
+				std::string request(content, 0, delimPost);
+				handleClientHandShakeRequest(stream, request);
+				content = content.substr(0, delimPost + 4);
+			}
+		}
+	}
+
+private:
+	TcpAcceptor acceptor;
+
+	void
+	handleClientHandShakeRequest(TcpStream &stream, const string &content)
+	{
+
+		std::cout << content << std::endl;
 		
 		// handler header
 		std::vector<std::string> headlines = Market::String::explode(content, "\r\n");
 
-		std::vector<std::string> firstline = Market::String::explode("GET / HTTP/1.1", " ");
+		std::vector<std::string> firstline = Market::String::explode(headlines[0], " ");
 
 		Connection connection(firstline[0], firstline[1], firstline[2]);
 
@@ -109,19 +124,16 @@ public:
 				Market::String::trim(line[1])
 			);
 		}
-		
+
+		std::cout << connection.to_string() << std::endl;
+
 		handShakeResponse(stream, connection);
 	}
-
-private:
-	TcpAcceptor acceptor;
 
 	string
 	buildAcceptKey(const Connection &connection) const
 	{
-		const char *MagicString;
-
-		std::string ret(connection.getHeader("Sec-Websocket-Key") + MagicString);
+		std::string ret(connection.getHeader("Sec-WebSocket-Key") + WEBSOCKET_MAGIC_STRING);
 
 		ret = Market::Utils::Base64::Encoding(Market::Utils::Sha1(ret));
 
