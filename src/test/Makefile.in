@@ -258,7 +258,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = utils
-LDADD = $(MAIN_LIBS) -lpthread $(abs_top_builddir)/src/lib/gtest/gtest_main.a
+LDADD = $(MAIN_LIBS) -pthread -lpthread $(abs_top_builddir)/src/lib/gtest/gtest_main.a
 all: all-recursive
 
 .SUFFIXES:

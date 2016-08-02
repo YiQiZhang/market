@@ -7,6 +7,7 @@ namespace Market{
 class String{
 public:
 	String() = default;
+	~String() = default;
 
 	static std::string
 	trim(const std::string &s)
@@ -35,7 +36,7 @@ public:
 			count--;
 		}
 
-		if (oldpos < s.size()) {
+		if (oldpos <= s.size()) {
 			ret.push_back(std::string(s, oldpos));
 		}
 

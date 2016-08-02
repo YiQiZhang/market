@@ -5,6 +5,9 @@
 config.log
 config.status
 configure.lineno
+*.Po
+Makefile
+test-driver
 
 # automake
 autom4te.cache

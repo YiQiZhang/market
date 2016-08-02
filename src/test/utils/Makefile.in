@@ -76,9 +76,9 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-TESTS = hash$(EXEEXT)
-check_PROGRAMS = hash$(EXEEXT)
-bin_PROGRAMS = hash$(EXEEXT)
+TESTS = hash$(EXEEXT) string$(EXEEXT)
+check_PROGRAMS = hash$(EXEEXT) string$(EXEEXT)
+bin_PROGRAMS = hash$(EXEEXT) string$(EXEEXT)
 subdir = src/test/utils
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp $(top_srcdir)/test-driver
@@ -95,6 +95,9 @@ PROGRAMS = $(bin_PROGRAMS)
 am_hash_OBJECTS = hash.$(OBJEXT)
 hash_OBJECTS = $(am_hash_OBJECTS)
 hash_LDADD = $(LDADD)
+am_string_OBJECTS = string.$(OBJEXT)
+string_OBJECTS = $(am_string_OBJECTS)
+string_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -124,8 +127,8 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(hash_SOURCES)
-DIST_SOURCES = $(hash_SOURCES)
+SOURCES = $(hash_SOURCES) $(string_SOURCES)
+DIST_SOURCES = $(hash_SOURCES) $(string_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -447,6 +450,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 hash_SOURCES = hash.cc
+string_SOURCES = string.cc
 all: all-am
 
 .SUFFIXES:
@@ -531,6 +535,10 @@ hash$(EXEEXT): $(hash_OBJECTS) $(hash_DEPENDENCIES) $(EXTRA_hash_DEPENDENCIES)
 	@rm -f hash$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(hash_OBJECTS) $(hash_LDADD) $(LIBS)
 
+string$(EXEEXT): $(string_OBJECTS) $(string_DEPENDENCIES) $(EXTRA_string_DEPENDENCIES) 
+	@rm -f string$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(string_OBJECTS) $(string_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -538,6 +546,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hash.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/string.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -751,6 +760,13 @@ recheck: all $(check_PROGRAMS)
 hash.log: hash$(EXEEXT)
 	@p='hash$(EXEEXT)'; \
 	b='hash'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+string.log: string$(EXEEXT)
+	@p='string$(EXEEXT)'; \
+	b='string'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

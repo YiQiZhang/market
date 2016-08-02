@@ -95,7 +95,7 @@ public:
 			if ((delimPost = content.find("\r\n\r\n")) != std::string::npos) {
 				std::string request(content, 0, delimPost);
 				handleClientHandShakeRequest(stream, request);
-				content = content.substr(0, delimPost + 4);
+				content = content.substr(delimPost + 4);
 			}
 		}
 	}
