@@ -13,20 +13,44 @@ namespace Websocket{
 class Connection{
 friend class Server;
 public:
-	Connection(const std::string &method,
-					const std::string &uri,
-					const std::string &version) :
-		method(method),
-		uri(uri),
-		version(version) 
+	Connection(TcpStream *stem) :
+		stem(stem),
+		handShaked(false)
 	{
 	}
 
-	void
-	setHeader(const std::string &key,
-			  const std::string &val) 
+	bool
+	hasHandShaked() const
 	{
-		headers[key] = val;
+		return handShaked;
+	}
+
+	void
+	parseHeader(const std::string &headerStr)
+	{
+		if (handShaked == true) {
+			return;
+		}
+
+		// handler header
+		std::vector<std::string> headlines = Market::String::explode(headerStr, "\r\n");
+
+		std::vector<std::string> firstline = Market::String::explode(headlines[0], " ");
+
+		method = firstline[0];
+		uri = firstline[1];
+		version = firstline[2];
+
+		for(std::vector<std::string>::size_type beg = 1, end = headlines.size() - 1; beg < end; beg++) {
+			std::vector<std::string> line = Market::String::explode(headlines[beg], ":", 1);
+			
+			setHeader(
+				Market::String::trim(line[0]),
+				Market::String::trim(line[1])
+			);
+		}
+
+		handShaked = true;
 	}
 
 	const std::unordered_map<std::string, std::string> &
@@ -63,12 +87,40 @@ public:
 
 		return os.str();
 	}
+
+	TcpStream *
+	stream()
+	{
+		return stem;
+	}
 		
 private:
+	TcpStream *stem;
 	std::string method;
 	std::string uri;
 	std::string version;
+	bool handShaked;
 	std::unordered_map<std::string, std::string> headers;
+
+	void
+	setHeader(const std::string &key, const std::string &val)
+	{
+		headers[key] = val;
+	}
+};
+
+class Frame {
+	static constexpr int OPCODE_CONTINUE = 0;
+	static constexpr int OPCODE_TEXT = 1;
+	static constexpr int OPCODE_BINARY = 2;
+public:
+	Frame(char * buf, int len)
+	{
+	}
+private:
+	int opcode;
+	bool isFin;
+	uint64_t length;
 };
 
 class Server{
@@ -82,52 +134,76 @@ public:
 	
 	void start()
 	{
-		TcpStream stream = acceptor.acceptRequest();
+		TcpStream *stream = acceptor.acceptRequest();
+		Connection *connection = new Connection(stream);
 
 		std::string content;
 		char buf[BUF_SIZE];
 		ssize_t n;
 		std::string::size_type delimPost;
 
-		while( (n = stream.receive(buf, BUF_SIZE)) > 0) {
+		while( (n = stream->receive(buf, BUF_SIZE)) > 0) {
 			content.append(buf, n);
 
-			if ((delimPost = content.find("\r\n\r\n")) != std::string::npos) {
-				std::string request(content, 0, delimPost);
-				handleClientHandShakeRequest(stream, request);
-				content = content.substr(delimPost + 4);
+			if (!connection->hasHandShaked()) {
+				// hand shake request
+				if ((delimPost = content.find("\r\n\r\n")) != std::string::npos) {
+					std::string requestContent(content, 0, delimPost);
+					handleClientHandShakeRequest(connection, requestContent);
+					content = content.substr(delimPost + 4);
+				}
+			} else {
+				if (content.size() >= 2) {
+					std::cout << Market::Debug::toBinaryString(content) << std::endl;
+
+					unsigned char firstByte = content.c_str()[0];
+					bool isFin = false;
+					int opcode = 0;
+					if (firstByte & 0x80) {
+						isFin = true;
+					}
+					opcode = firstByte & 0xF;
+
+					unsigned char secByte = content.c_str()[1];
+					bool isMask = false;
+					if (secByte & 0x80) {
+						isMask = true;
+					}
+					
+					unsigned short payloadType = secByte & 0x7f;
+					uint64_t payloadLen;
+					if (payloadType <= 125) {
+						payloadLen = payloadType;
+					} 
+					
+				}
+
 			}
 		}
 	}
 
 private:
 	TcpAcceptor acceptor;
+	std::unordered_map<int, Connection *> connections;
 
 	void
-	handleClientHandShakeRequest(TcpStream &stream, const string &content)
+	handleClientHandShakeRequest(Connection *connection, const string &content)
 	{
+		connection->parseHeader(content);
+		sendHandShakeResponse(connection);
+	}
 
-		std::cout << content << std::endl;
+	void
+	sendHandShakeResponse(Connection *connection)
+	{
+		std::ostringstream os;
 		
-		// handler header
-		std::vector<std::string> headlines = Market::String::explode(content, "\r\n");
+		os << connection->version << " 101 Switching Protocols\r\n"
+			<< "Upgrade: websocket\r\n"
+			<< "Connection: Upgrade\r\n"
+			<< "Sec-WebSocket-Accept: " << buildAcceptKey(*connection) << "\r\n\r\n";
 
-		std::vector<std::string> firstline = Market::String::explode(headlines[0], " ");
-
-		Connection connection(firstline[0], firstline[1], firstline[2]);
-
-		for(std::vector<std::string>::size_type beg = 1, end = headlines.size() - 1; beg < end; beg++) {
-			std::vector<std::string> line = Market::String::explode(headlines[beg], ":", 1);
-			
-			connection.setHeader(
-				Market::String::trim(line[0]),
-				Market::String::trim(line[1])
-			);
-		}
-
-		std::cout << connection.to_string() << std::endl;
-
-		handShakeResponse(stream, connection);
+		connection->stream()->send(os.str().data(), os.str().size());
 	}
 
 	string
@@ -142,21 +218,6 @@ private:
 		ret = Market::Utils::Base64::Encoding(std::string((char *)&digest[0], SHA_DIGEST_LENGTH));
 
 		return ret;
-	}
-
-	void
-	handShakeResponse(TcpStream &stream, Connection &connection)
-	{
-		std::ostringstream os;
-		
-		os << connection.version << " 101 Switching Protocols\r\n"
-			<< "Upgrade: websocket\r\n"
-			<< "Connection: Upgrade\r\n"
-			<< "Sec-WebSocket-Accept: " << buildAcceptKey(connection) << "\r\n\r\n";
-
-		std::cout << os.str();
-
-		stream.send(os.str().data(), os.str().size());
 	}
 };
 

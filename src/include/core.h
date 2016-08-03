@@ -31,6 +31,9 @@
  *
  * <cctype>
  * isspace
+ *
+ * <cstdint>
+ * uint64_t
  */
 #include <iostream>
 #include <fstream>
@@ -41,10 +44,13 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
+#include <bitset>
 #include <regex>
 
 #include <cstring>
 #include <cctype>
+#include <cstdint>
+
 
 
 /**
@@ -101,6 +107,7 @@
  */
 #include <market_utils.h>
 #include <market_string.h>
+#include <market_debug.h>
 #include <logger.h>
 #include <stream.h>
 #include <tcp_acceptor.h>

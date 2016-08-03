@@ -89,17 +89,18 @@ public:
 		return addrlen;
 	}
 
-	TcpStream
+	TcpStream *
 	acceptRequest()
 	{
 		int fd;
-		TcpStream stream;
+		TcpStream *stream = new TcpStream();
 
-		while ( (fd = accept(listenFd, (SA *)stream.addrPointer(), stream.addrLengthPointer())) < 0 ) {
+		while ( (fd = accept(listenFd, (SA *)stream->addrPointer(), stream->addrLengthPointer())) < 0 ) {
 			logger(MERR_NOTICE, std::string("accept fail: ") + strerror(errno));
 		}
 
-		stream.setFileDescriptor(fd);
+		stream->setFileDescriptor(fd);
+
 		return stream;
 	}
 private:

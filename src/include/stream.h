@@ -114,6 +114,11 @@ public:
 
 		return false;
 	}
+
+	~TcpStream()
+	{
+		close(fileDescriptor());
+	}
 private:
 	int fd;
 };
